@@ -1,0 +1,74 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '4.0.6'
+	id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.materials'
+version = '0.1.1'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-h2console'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-restclient'
+	implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.2'
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'com.h2database:h2'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-data-jpa-test'
+	testImplementation 'org.springframework.boot:spring-boot-starter-restclient-test'
+	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
+	testCompileOnly 'org.projectlombok:lombok'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	testAnnotationProcessor 'org.projectlombok:lombok'
+}
+
+def isWindows = System.getProperty('os.name').toLowerCase().contains('windows')
+def npmCmd = isWindows ? 'npm.cmd' : 'npm'
+
+tasks.register('cleanUiStatic', Delete) {
+	group = 'build'
+	description = 'Deletes the built UI files from src/main/resources/static/battery-quote-center.'
+	delete "${projectDir}/src/main/resources/static/battery-quote-center"
+}
+
+tasks.named('clean') {
+	dependsOn 'cleanUiStatic'
+}
+
+tasks.register('installUi', Exec) {
+	workingDir "${projectDir}/quoting-ui"
+	commandLine npmCmd, 'install'
+}
+
+tasks.register('buildUi', Exec) {
+	dependsOn 'installUi'
+	workingDir "${projectDir}/quoting-ui"
+	commandLine npmCmd, 'run', 'build'
+}
+
+processResources.dependsOn 'buildUi'
+
+tasks.named('bootRun') {
+	dependsOn 'buildUi'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+springBoot {
+	buildInfo()
+}
+

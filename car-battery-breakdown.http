@@ -1,0 +1,97 @@
+### Base URL variable
+@baseUrl = http://localhost:8080
+@contentType = application/json
+
+### ─────────────────────────────────────────────────────────────────────────────
+### CREATE – POST /api/car-battery-breakdowns
+### ─────────────────────────────────────────────────────────────────────────────
+
+POST {{baseUrl}}/api/car-battery-breakdowns
+Content-Type: {{contentType}}
+
+{
+  "make": "Tesla",
+  "model": "Model 3",
+  "trim": "Long Range, performance",
+  "propulsionType": "BEV",
+  "batteryCapacityKwh": 62.5,
+  "modelYearStart": 2020,
+  "modelYearEnd": null,
+  "packWeightKg": 277.0,
+  "niWeightKg": 78.6,
+  "coWeightKg": 5.7,
+  "liWeightKg": 7.3,
+  "cuWeightKg": 16.0,
+  "alWeightKg": 16.1
+}
+
+### ─────────────────────────────────────────────────────────────────────────────
+### READ ALL – GET /api/car-battery-breakdowns
+### ─────────────────────────────────────────────────────────────────────────────
+
+GET {{baseUrl}}/api/car-battery-breakdowns
+Accept: {{contentType}}
+
+### ─────────────────────────────────────────────────────────────────────────────
+### READ – Filter by make
+### GET /api/car-battery-breakdowns?make=Tesla
+### ─────────────────────────────────────────────────────────────────────────────
+
+GET {{baseUrl}}/api/car-battery-breakdowns?make=Tesla
+Accept: {{contentType}}
+
+### ─────────────────────────────────────────────────────────────────────────────
+### READ – Filter by make and model
+### GET /api/car-battery-breakdowns?make=Tesla&model=Model 3
+### ─────────────────────────────────────────────────────────────────────────────
+
+GET {{baseUrl}}/api/car-battery-breakdowns?make=Tesla&model=Model 3
+Accept: {{contentType}}
+
+### ─────────────────────────────────────────────────────────────────────────────
+### READ – Filter by propulsion type  (BEV | PHEV | HEV)
+### GET /api/car-battery-breakdowns?propulsionType=BEV
+### ─────────────────────────────────────────────────────────────────────────────
+
+GET {{baseUrl}}/api/car-battery-breakdowns?propulsionType=BEV
+Accept: {{contentType}}
+
+### ─────────────────────────────────────────────────────────────────────────────
+### READ BY ID – GET /api/car-battery-breakdowns/{id}
+### ─────────────────────────────────────────────────────────────────────────────
+
+GET {{baseUrl}}/api/car-battery-breakdowns/1
+Accept: {{contentType}}
+
+### ─────────────────────────────────────────────────────────────────────────────
+### UPDATE – PUT /api/car-battery-breakdowns/{id}
+### ─────────────────────────────────────────────────────────────────────────────
+
+PUT {{baseUrl}}/api/car-battery-breakdowns/1
+Content-Type: {{contentType}}
+
+{
+  "make": "Tesla",
+  "model": "Model 3",
+  "trim": "Long Range, performance",
+  "propulsionType": "BEV",
+  "batteryCapacityKwh": 75.0,
+  "modelYearStart": 2020,
+  "modelYearEnd": 2024,
+  "packWeightKg": 290.0,
+  "niWeightKg": 80.0,
+  "coWeightKg": 6.0,
+  "liWeightKg": 7.5,
+  "cuWeightKg": 17.0,
+  "alWeightKg": 17.0
+}
+
+### ─────────────────────────────────────────────────────────────────────────────
+### DELETE – DELETE /api/car-battery-breakdowns/{id}
+### ─────────────────────────────────────────────────────────────────────────────
+
+DELETE {{baseUrl}}/api/car-battery-breakdowns/1
+
+###
+GET {{baseUrl}}/api/quote-rejection-reasons?active=true
+
